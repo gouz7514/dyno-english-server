@@ -1,9 +1,11 @@
 import express, { Router } from 'express'
-import { getUsers, postUsers, patchUsers } from '../api/users'
+import { getUsers, postUsers, patchUsers, getUserByToken } from '../api/users'
 
 const router: Router = express.Router()
 
-router.get('/', getUsers)
+router.get('/token', getUserByToken)
+
+router.get('/:userId', getUsers)
 router.post('/', postUsers)
 router.patch('/', patchUsers)
 

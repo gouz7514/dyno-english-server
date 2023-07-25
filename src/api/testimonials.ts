@@ -30,15 +30,13 @@ const getTestimonials = async (req: Request, res: Response) => {
 
 // 후기 등록 자주 못하도록 막아야 한다
 const postTestimonials = async (req: Request, res: Response) => {
-  const { content, author } = req.body
-  const headers = req.headers
-  const author_id = headers.author_id
+  const { content, author, user_id } = req.body
 
   // check if userId is valid
   try {
     const result = await req.dbClient.query(
       `SELECT * FROM users WHERE id = $1`,
-      [author_id]
+      [user_id]
     )
 
     if (result.rowCount === 0) {
@@ -56,8 +54,8 @@ const postTestimonials = async (req: Request, res: Response) => {
 
   try {
     const result = await req.dbClient.query(
-      `INSERT INTO testimonials (content, author, author_id) VALUES ($1, $2, $3) RETURNING *`,
-      [content, author, author_id]
+      `INSERT INTO testimonials (content, author, user_id) VALUES ($1, $2, $3) RETURNING *`,
+      [content, author, user_id]
     )
 
     if (result.rowCount === 1) {
